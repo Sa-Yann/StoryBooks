@@ -1,3 +1,16 @@
 body {
     background-color: blanchedalmond;
+    font-family: 'Open Sans', sans-serif !important;
+}
+
+p {
+    margin: 10px 0 !important;
+}
+
+/* !important; to overwrite materialize rules */
+
+.login-container {
+    width: 400px;
+    margin-top: 50px;
+    text-align: center;
 }
