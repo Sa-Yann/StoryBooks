@@ -11,4 +11,6 @@ http://localhost:3500/auth/google/callback
 Client id : 6314667725-emblvjahuc3fkq09qmf0qgn61quc7gu8.apps.googleusercontent.com
 Client secret : IDd-CEAw6W0X8BnNwiIu5m2H
 
+####express-session middleware needs to be set up in the server/app.js file just above the passport niddleware
+
 

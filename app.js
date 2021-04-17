@@ -12,12 +12,22 @@ const morgan = require("morgan")
 const connectDB = require('./config/db')
 // morgan is HTTP request logger middleware for node.js
 const exphbs = require('express-handlebars')
-const { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } = require('constants')
+const passport = require('passport')
+const session = require('express-session')
+// const { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } = require('constants')
 
 //  to load config files from te folder config in the file config.env
 // the port is in the config file.env file
 // config() Loads .env file contents into | process.env. Example: 'KEY=value' becomes { parsed: { KEY: 'value' } }
 dotenv.config({ path: './config/config.env' })
+
+
+
+// ------------------------------------------------------------------------
+// passport config required with (passport) as an argument at the end of the require to 
+// specify we wonna use what is in the ./config/passport file
+// ------------------------------------------------------------------------
+require('./config/passport')(passport)
 
 // test connection OK
 connectDB()
@@ -40,6 +50,22 @@ if (process.env.NODE_ENV === 'development') {
 app.engine('.hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }));
 app.set('view engine', '.hbs');
 
+app.use(session({
+    secret: 'keyboard cat',
+    // resave: false, : we dont want to save a session until nothing is modified
+    resave: false,
+    // saveUninitialized set to false : don't create a session until something stored
+    saveUninitialized: false,
+    // cookie: { secure: true } onlyworks with https
+}))
+
+
+// ------------------------------------------------------------------------
+//Adding the passport middleware initialize and session methode/class
+// ------------------------------------------------------------------------
+app.use(passport.initialize())
+app.use(passport.session())
+
 // ------------------------------------------------------------------------
 // app link to the Static folder where we locate all the files seen by users ( css/images)
 // path.join(--dirname whic means direct folder , 'the name of the folder to find teh static/public files')
@@ -53,6 +79,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 // ------------------------------------------------------------------------
 // HERE WE TELL THE APP THAT IT WILL BE DESPLAYING VIEWS BY USING THE index.js file in the routes folder
 app.use('/', require('./routes/index'))
+// or the auth.js when required by passport use of authentification
+app.use('/auth', require('./routes/auth'))
 
 
 
