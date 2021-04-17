@@ -1,3 +1,5 @@
+
+const path = require('path')
 // const express = require("express") is creatting the server
 const express = require("express")
 // dotenv is wher we have our variables for configuration 
@@ -10,6 +12,7 @@ const morgan = require("morgan")
 const connectDB = require('./config/db')
 // morgan is HTTP request logger middleware for node.js
 const exphbs = require('express-handlebars')
+const { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } = require('constants')
 
 //  to load config files from te folder config in the file config.env
 // the port is in the config file.env file
@@ -36,6 +39,20 @@ if (process.env.NODE_ENV === 'development') {
 // ------------------------------------------------------------------------
 app.engine('.hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }));
 app.set('view engine', '.hbs');
+
+// ------------------------------------------------------------------------
+// app link to the Static folder where we locate all the files seen by users ( css/images)
+// path.join(--dirname whic means direct folder , 'the name of the folder to find teh static/public files')
+// ------------------------------------------------------------------------
+app.use(express.static(path.join(__dirname, 'public')))
+
+
+
+// ------------------------------------------------------------------------
+// !!!!! ROUTES SET UP
+// ------------------------------------------------------------------------
+// HERE WE TELL THE APP THAT IT WILL BE DESPLAYING VIEWS BY USING THE index.js file in the routes folder
+app.use('/', require('./routes/index'))
 
 
 
