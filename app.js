@@ -62,6 +62,7 @@ app.use(session({
 
 // ------------------------------------------------------------------------
 //Adding the passport middleware initialize and session methode/class
+// https://github.com/jaredhanson/passport-google-oauth2
 // ------------------------------------------------------------------------
 app.use(passport.initialize())
 app.use(passport.session())
