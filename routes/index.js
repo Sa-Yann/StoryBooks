@@ -2,18 +2,18 @@
 const express = require('express')
 const router = express.Router()
 
-// Login / Landing page render via a .get(){} to /
+// @desc is the Login Page/ Landing page : render via @route  a .get(){} to /
 router.get('/', (req, res) => {
-    // res.send('logiiiiiiiin') to test before creating the handelbars loginview
+    // res.send('logiiiiiiiin') to test response rendering on localhost:3500 before creating the handelbars loginview
     res.render('login_view', {
         // here we specify that we want the login view to render the login_view based on the login_layout.hrs file in the layouts folder
         layout: 'login_layout'
     })
 })
 
-// Dashboard page render via a .get(){} to /dashboard
+//@desc Dashboard page render via @route a .get(){} request to /dashboard
 router.get('/dashboard_view', (req, res) => {
-    // res.send('dasbooooooaaaard') to test before creating the handelbars loginview
+    // res.send('dasbooooooaaaard') to test response rendering on localhost:3500/dasboard before creating the handelbars loginview
     res.render('dashboard_view')
 })
 

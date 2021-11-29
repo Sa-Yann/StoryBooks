@@ -1,5 +1,5 @@
 
-const path = require('path')
+const path = require('path') //core Node.js module
 // const express = require("express") is creatting the server
 const express = require("express")
 // dotenv is wher we have our variables for configuration 
@@ -10,14 +10,14 @@ const dotenv = require("dotenv")
 const morgan = require("morgan")
 // connectDB is the function that allows connection to our Data Base
 const connectDB = require('./config/db')
-// morgan is HTTP request logger middleware for node.js
+// morgan is HTTP request Terminal logger middleware for node.js
 const exphbs = require('express-handlebars')
 const passport = require('passport')
-const session = require('express-session')
+const session = require('express-session') // to be able to use passport middleware
 // const { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } = require('constants')
 
-//  to load config files from te folder config in the file config.env
-// the port is in the config file.env file
+// to load config files from te folder config in the file config.env
+// the port variable is defined in the config file.env file
 // config() Loads .env file contents into | process.env. Example: 'KEY=value' becomes { parsed: { KEY: 'value' } }
 dotenv.config({ path: './config/config.env' })
 
@@ -32,7 +32,7 @@ require('./config/passport')(passport)
 // test connection OK
 connectDB()
 
-//  initialising the app
+//  initialising the app with expres
 const app = express()
 
 // Logging
@@ -52,7 +52,7 @@ app.set('view engine', '.hbs');
 
 app.use(session({
     secret: 'keyboard cat',
-    // resave: false, : we dont want to save a session until nothing is modified
+    // resave: false, : we dont want to save a session unless something is modified
     resave: false,
     // saveUninitialized set to false : don't create a session until something stored
     saveUninitialized: false,
@@ -71,7 +71,7 @@ app.use(passport.session())
 // app link to the Static folder where we locate all the files seen by users ( css/images)
 // path.join(--dirname whic means direct folder , 'the name of the folder to find teh static/public files')
 // ------------------------------------------------------------------------
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public'))) // __dirname : meanswe describe our path from the curent directory/file app.js
 
 
 
@@ -95,5 +95,6 @@ const PORT = process.env.PORT || 5000
 
 app.listen(
     PORT,
-    console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`)
+    console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`),
+    console.log(`${process.env.NODE_ENV}`)
 )
