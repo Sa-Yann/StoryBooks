@@ -1,21 +1,24 @@
 
 const path = require('path') //core Node.js module
 // const express = require("express") is creatting the server
-const express = require("express")
+const express = require('express')
+const mongoose = require('mongoose')
 // dotenv is wher we have our variables for configuration 
 // Dotenv is a zero-dependency module that loads environment variables 
 // from a .env file into process.env using dotenv.config() (good practice)
 const dotenv = require("dotenv")
 // morgan to be sure that everytime there s a request to the BDD it s shown in the console
+// morgan is HTTP request Terminal logger middleware for node.js
 const morgan = require("morgan")
+
 // connectDB is the function that allows connection to our Data Base
 const connectDB = require('./config/db')
-// morgan is HTTP request Terminal logger middleware for node.js
+
 const exphbs = require('express-handlebars')
 const passport = require('passport')
 const session = require('express-session') // to be able to use passport middleware
 // const { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } = require('constants')
-
+const MongoStore = require('connect-mongo')
 // to load config files from te folder config in the file config.env
 // the port variable is defined in the config file.env file
 // config() Loads .env file contents into | process.env. Example: 'KEY=value' becomes { parsed: { KEY: 'value' } }
@@ -57,7 +60,11 @@ app.use(session({
     // saveUninitialized set to false : don't create a session until something stored
     saveUninitialized: false,
     // cookie: { secure: true } onlyworks with https
+    // we store our session info into our DB in order to not get signed out when page is getting refreshed by nodemon in dev or user in browser
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
+    
 }))
+
 
 
 // ------------------------------------------------------------------------
